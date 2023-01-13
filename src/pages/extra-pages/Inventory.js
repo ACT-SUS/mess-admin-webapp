@@ -3,6 +3,7 @@ import React from "react";
 import InventoryCard from "./InventoryCard";
 import { Grid, Button, TextField } from "@mui/material";
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
+import { inventory_array } from "./inventory_array";
 
 const Inventory = () => {
   const [data, setData] = React.useState({
@@ -11,13 +12,17 @@ const Inventory = () => {
     price: "",
   });
 
+  var inventory_array_new = inventory_array;
+
   const handleAdd = () => {
     // console.log(data);
     setData({
-        item: "",
-        quantity: "",
-        price: "",
-      });
+      item: "",
+      quantity: "",
+      price: "",
+    });
+
+    inventory_array_new.push(data);
   };
 
   return (
@@ -77,17 +82,9 @@ const Inventory = () => {
 
       <br />
       <Grid container spacing={2} alignItems="center">
-        <InventoryCard item="Wheat" qnty="10kg" rate="Rs.28/kg" />
-        <InventoryCard item="Wheat" qnty="10kg" rate="Rs.28/kg" />
-        <InventoryCard item="Wheat" qnty="10kg" rate="Rs.28/kg" />
-        <InventoryCard item="Wheat" qnty="10kg" rate="Rs.28/kg" />
-        <InventoryCard item="Wheat" qnty="10kg" rate="Rs.28/kg" />
-        <InventoryCard item="Wheat" qnty="10kg" rate="Rs.28/kg" />
-        <InventoryCard item="Wheat" qnty="10kg" rate="Rs.28/kg" />
-        <InventoryCard item="Wheat" qnty="10kg" rate="Rs.28/kg" />
-        <InventoryCard item="Wheat" qnty="10kg" rate="Rs.28/kg" />
-        <InventoryCard item="Wheat" qnty="10kg" rate="Rs.28/kg" />
-        <InventoryCard item="Wheat" qnty="10kg" rate="Rs.28/kg" />
+        {inventory_array_new.map((x, y) => {
+          return <InventoryCard array={inventory_array_new} view={x.view} key={y} index={y} item={x.item} quantity={x.quantity} rate={x.price} />;
+        })}
       </Grid>
     </>
   );
