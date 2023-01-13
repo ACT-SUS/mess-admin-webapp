@@ -12,7 +12,7 @@ const Inventory = () => {
   });
 
   const handleAdd = () => {
-    console.log(data);
+    // console.log(data);
     setData({
         item: "",
         quantity: "",

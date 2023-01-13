@@ -18,7 +18,7 @@ const AllStudents = () => {
             (async () => {
                 const data = await axios.get('http://localhost:5000/api/student')
                 setStudents(data.data.students);
-                console.log(data.data.students);
+                // console.log(data.data.students);
             })()
         } catch (error) {
             console.error(error);
