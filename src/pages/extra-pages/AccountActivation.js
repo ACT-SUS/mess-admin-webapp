@@ -1,5 +1,6 @@
+import axios from "axios";
 import MainCard from "components/MainCard";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -7,7 +8,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Button from "@mui/material/Button";
-import { acc_activation_data } from "./acc_activation_data";
+// import { acc_activation_data } from "./acc_activation_data";
 import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -26,15 +27,15 @@ const OrderStatus = ({ status }) => {
   let title;
 
   switch (status) {
-    case 0:
+    case "pending":
       color = "warning";
       title = "Pending";
       break;
-    case 1:
+    case "approved":
       color = "success";
       title = "Approved";
       break;
-    case 2:
+    case "rejected":
       color = "error";
       title = "Rejected";
       break;
@@ -51,7 +52,21 @@ const OrderStatus = ({ status }) => {
   );
 };
 
-function SimpleDialog({ open, onClose, pdf }) {
+function SimpleDialog({ open, onClose, pdf, sid }) {
+  const onApprove = async () => {
+    const data = await axios.put(
+      `http://localhost:5000/api/admin/approve/${sid}`
+    );
+    console.log(data);
+  };
+
+  const onReject = async () => {
+    const data = await axios.put(
+      `http://localhost:5000/api/admin/reject/${sid}`
+    );
+    console.log(data);
+  };
+
   return (
     <Dialog open={open}>
       <DialogTitle>
@@ -71,10 +86,10 @@ function SimpleDialog({ open, onClose, pdf }) {
       </DialogTitle>
       <iframe src={pdf} title="asa" width="500px" height="700px"></iframe>
       <DialogActions>
-        <Button variant="outlined" color="error">
+        <Button variant="outlined" color="error" onClick={onReject}>
           Reject
         </Button>
-        <Button variant="contained" color="success">
+        <Button variant="contained" color="success" onClick={onApprove}>
           Approve
         </Button>
       </DialogActions>
@@ -84,7 +99,8 @@ function SimpleDialog({ open, onClose, pdf }) {
 
 const AccountActivation = () => {
   const [open, setOpen] = React.useState(false);
-  const [status, setStatus] = React.useState(0);
+  const [status, setStatus] = React.useState("pending");
+  const [acc_activation_data, setAccActData] = useState([]);
 
   const handleChange = (event) => {
     setStatus(event.target.value);
@@ -98,19 +114,28 @@ const AccountActivation = () => {
     setOpen(false);
   };
 
+  useEffect(() => {
+    (async () => {
+      const data = await axios.get(`http://localhost:5000/api/admin/${status}`);
+      const students = data.data.students;
+      console.log(students);
+      setAccActData(students);
+    })();
+  }, [status]);
+
   return (
     <MainCard>
       <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
         <InputLabel>Filter by Status</InputLabel>
         <Select value={status} onChange={handleChange} label="Status">
-          <MenuItem value={0}>
-            <OrderStatus status={0} />
+          <MenuItem value={"pending"}>
+            <OrderStatus status={"pending"} />
           </MenuItem>
-          <MenuItem value={1}>
-            <OrderStatus status={1} />
+          <MenuItem value={"approved"}>
+            <OrderStatus status={"approved"} />
           </MenuItem>
-          <MenuItem value={2}>
-            <OrderStatus status={2} />
+          <MenuItem value={"rejected"}>
+            <OrderStatus status={"rejected"} />
           </MenuItem>
         </Select>
       </FormControl>
@@ -133,8 +158,11 @@ const AccountActivation = () => {
                     key={y}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
-                    <TableCell align="left">{x.rollNum}</TableCell>
-                    <TableCell align="left">{x.name}</TableCell>
+                    <TableCell align="left">{x.sid}</TableCell>
+                    <TableCell align="left">
+                      {x.firstName}
+                      {x.lastName}
+                    </TableCell>
                     <TableCell align="left">
                       <OrderStatus status={x.status} />
                     </TableCell>
@@ -151,6 +179,7 @@ const AccountActivation = () => {
                       pdf={x.feeReceipt}
                       open={open}
                       onClose={handleClose}
+                      sid={x.sid}
                     />
                   </TableRow>
                 ) : null}

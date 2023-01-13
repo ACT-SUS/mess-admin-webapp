@@ -1,21 +1,23 @@
+import axios from "axios";
 import MainCard from "components/MainCard";
-import React from "react";
+import React, { useEffect } from "react";
 import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
 
 import Typography from "@mui/material/Typography";
-
+//
 import { useState } from "react";
-import { Grid, Box } from "@mui/material";
+import { Grid } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
-import { CardActionArea, Button } from "@mui/material";
+import { CardActionArea, Button, CardContent, Collapse } from "@mui/material";
 import veg_dish from "../../assets/images/images/veg_dish.jpg";
 import nonveg_dish from "../../assets/images/images/nonveg_dish.jpg";
 import TextField from "@mui/material/TextField";
 
-
+import IconButton from "@mui/material/IconButton";
+import EditIcon from "@mui/icons-material/Edit";
 import MenuTableComponent from "./MenuTableComponent";
 
 const Settings = () => {
@@ -26,11 +28,32 @@ const Settings = () => {
       key: "selection",
     },
   ]);
+  const [menu_data, setMenuData] = useState({});
+
+  const [expanded_V, setExpanded_V] = React.useState(false);
+  const [expanded_NV, setExpanded_NV] = React.useState(false);
+
+  const handleExpandClick_V = () => {
+    setExpanded_V(!expanded_V);
+  };
+
+  const handleExpandClick_NV = () => {
+    setExpanded_NV(!expanded_NV);
+  };
 
   const handleDateChange = (item) => {
     setState([item.selection]);
     console.log(state);
   };
+
+  useEffect(() => {
+    (async () => {
+      const data = await axios.get("http://localhost:5000/api/setting/menu");
+      const menu = data.data.menu;
+      console.log(menu);
+      setMenuData(menu);
+    })();
+  }, []);
 
   //sem cycle, menu - price veg non veg, notify students
   return (
@@ -58,16 +81,31 @@ const Settings = () => {
                   image={veg_dish}
                   alt="green iguana"
                 />
-                <Box
-                  sx={{
-                    backgroundColor: "#F2E4DF",
-                    padding: "1rem",
-                  }}
-                >
-                  <Typography variant="h5" component="div">
-                    Veg Dishes - ₹70
-                  </Typography>
-                </Box>
+                <CardContent>
+                  <Grid
+                    container
+                    justifyContent="space-between"
+                    alignItems="center"
+                  >
+                    <Typography variant="h5" component="div">
+                      Veg Dishes - ₹70
+                    </Typography>
+                    <IconButton>
+                      <EditIcon onClick={handleExpandClick_V} />
+                    </IconButton>
+                  </Grid>
+                  <Collapse in={expanded_V} timeout="auto" unmountOnExit>
+                    <TextField
+                      margin="normal"
+                      id="name"
+                      name="breakfast"
+                      label="Update Veg Dish Price"
+                      fullWidth
+                      maxWidth="lg"
+                      variant="outlined"
+                    />
+                  </Collapse>
+                </CardContent>
               </CardActionArea>
             </Card>
           </Grid>
@@ -80,16 +118,31 @@ const Settings = () => {
                   image={nonveg_dish}
                   alt="green iguana"
                 />
-                <Box
-                  sx={{
-                    backgroundColor: "#F2E4DF",
-                    padding: "1rem",
-                  }}
-                >
-                  <Typography variant="h5" component="div">
-                    Non Veg Dishes - ₹100
-                  </Typography>
-                </Box>
+                <CardContent>
+                  <Grid
+                    container
+                    justifyContent="space-between"
+                    alignItems="center"
+                  >
+                    <Typography variant="h5" component="div">
+                      Non Veg Dishes - ₹100
+                    </Typography>
+                    <IconButton>
+                      <EditIcon onClick={handleExpandClick_NV} />
+                    </IconButton>
+                  </Grid>
+                  <Collapse in={expanded_NV} timeout="auto" unmountOnExit>
+                    <TextField
+                      margin="normal"
+                      id="name"
+                      name="breakfast"
+                      label="Update Non Veg Dish Price"
+                      fullWidth
+                      maxWidth="lg"
+                      variant="outlined"
+                    />
+                  </Collapse>
+                </CardContent>
               </CardActionArea>
             </Card>
           </Grid>
