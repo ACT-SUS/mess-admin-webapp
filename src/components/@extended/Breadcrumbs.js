@@ -109,8 +109,8 @@ const Breadcrumbs = ({ navigation, title, ...others }) => {
                 >
                   Home
                 </Typography>
-                {mainContent}
-                {itemContent}
+                <Typography variant="h5">{itemContent}</Typography>
+                
               </MuiBreadcrumbs>
               <Typography variant="h5" gutterBottom></Typography>
               <Typography variant="h5">{item.title}</Typography>

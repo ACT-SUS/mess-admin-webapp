@@ -30,7 +30,7 @@ const dashboard = {
         },
         {
             id: 'account-activation',
-            title: 'Account Activation',
+            title: 'Activation',
             type: 'item',
             url: '/app/account-activation',
             icon: PersonAddIcon

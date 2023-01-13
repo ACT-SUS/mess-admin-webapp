@@ -7,6 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Button from "@mui/material/Button";
+import Pagination from "@mui/material/Pagination";
 import axios from "axios";
 import { Grid } from "@mui/material";
 import exportCSVFile from "./export_to_csv";
@@ -14,6 +15,18 @@ import DownloadIcon from "@mui/icons-material/Download";
 
 const AllStudents = () => {
   const [students, setStudents] = useState([]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [dataPerPage] = useState(3);
+
+  // get current blog
+  const indexOfLastBlog = currentPage * dataPerPage;
+  const indexOfFirstBlog = indexOfLastBlog - dataPerPage;
+  const currentData = students.slice(indexOfFirstBlog, indexOfLastBlog);
+
+  const handleChange = (event, value) => {
+    setCurrentPage(value);
+  };
 
   var headers = {
     sid: "Roll Num",
@@ -58,7 +71,7 @@ const AllStudents = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {students.map((x, y) => {
+            {currentData.map((x, y) => {
               return (
                 <TableRow
                   key={y}
@@ -74,6 +87,14 @@ const AllStudents = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      <div style={{ margin: "2rem 0" }}>
+        <Pagination
+          count={Math.ceil(students.length / dataPerPage)}
+          color="primary"
+          page={currentPage}
+          onChange={handleChange}
+        />
+      </div>
     </MainCard>
   );
 };
