@@ -15,13 +15,6 @@ const Breadcrumbs = ({ navigation, title, ...others }) => {
   const [main, setMain] = useState();
   const [item, setItem] = useState();
 
-  const Icon = item.icon;
-  const itemIcon = item.icon ? (
-    <Icon style={{ fontSize: "5rem", color: "#FAAD14" }} />
-  ) : (
-    false
-  );
-
   // set active item state
   const getCollapse = (menu) => {
     if (menu.children) {
@@ -82,6 +75,12 @@ const Breadcrumbs = ({ navigation, title, ...others }) => {
         {itemTitle}
       </Typography>
     );
+    const Icon = item.icon;
+    const itemIcon = item.icon ? (
+      <Icon style={{ fontSize: "5rem", color: "#FAAD14" }} />
+    ) : (
+      false
+    );
 
     // main
     if (item.breadcrumbs !== false) {
@@ -99,7 +98,7 @@ const Breadcrumbs = ({ navigation, title, ...others }) => {
             alignItems="center"
             spacing={1}
           >
-            <Grid item xs={8} sm={11}>
+            <Grid item xs={8} sm={10} md={1}>
               <MuiBreadcrumbs aria-label="breadcrumb">
                 <Typography
                   component={Link}
@@ -116,7 +115,7 @@ const Breadcrumbs = ({ navigation, title, ...others }) => {
               <Typography variant="h5" gutterBottom></Typography>
               <Typography variant="h5">{item.title}</Typography>
             </Grid>
-            <Grid item xs={4} sm={1}>
+            <Grid item xs={4} sm={2} md={1}>
               <ListItemIcon>{itemIcon}</ListItemIcon>
             </Grid>
           </Grid>
