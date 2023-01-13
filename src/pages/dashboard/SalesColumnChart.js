@@ -94,11 +94,11 @@ const SalesColumnChart = () => {
     const [series] = useState([
         {
             name: 'Net Profit',
-            data: [180, 90, 135, 114, 120, 145]
+            data: [280000, 300000, 235000, 312000, 250000, 350000]
         },
         {
             name: 'Revenue',
-            data: [120, 45, 78, 150, 168, 99]
+            data: [623000, 780000, 633000, 543000, 712000, 520000]
         }
     ]);
 

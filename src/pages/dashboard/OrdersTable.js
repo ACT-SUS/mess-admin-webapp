@@ -113,6 +113,8 @@ export default function OrderTable() {
   const [data, setData] = useState([]);
   const isSelected = (rollNo) => selected.indexOf(rollNo) !== -1;
 
+  console.log(data);
+
   useEffect(() => {
     // { rollNo, name, guest, cost }
     /* 
@@ -188,39 +190,47 @@ export default function OrderTable() {
                 const labelId = `enhanced-table-checkbox-${index}`;
 
                 return (
-                  <TableRow
-                    hover
-                    role="checkbox"
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={row.rollNo}
-                    selected={isItemSelected}
-                  >
-                    <TableCell
-                      component="th"
-                      id={labelId}
-                      scope="row"
-                      align="left"
-                    >
-                      <Link color="secondary" component={RouterLink} to="">
-                        {row.rollNo}
-                      </Link>
-                    </TableCell>
-                    <TableCell align="left">{row.name}</TableCell>
-                    <TableCell align="center">1 + {row.guest}</TableCell>
-                    {/* <TableCell align="left">
+                  <>
+                    {data.length > 0 ? (
+                      <TableRow
+                        hover
+                        role="checkbox"
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                        aria-checked={isItemSelected}
+                        tabIndex={-1}
+                        key={row.rollNo}
+                        selected={isItemSelected}
+                      >
+                        <TableCell
+                          component="th"
+                          id={labelId}
+                          scope="row"
+                          align="left"
+                        >
+                          <Link color="secondary" component={RouterLink} to="">
+                            {row.rollNo}
+                          </Link>
+                        </TableCell>
+                        <TableCell align="left">{row.name}</TableCell>
+                        <TableCell align="center">1 + {row.guest}</TableCell>
+                        {/* <TableCell align="left">
                                         <OrderStatus status={row.cost} />
                                     </TableCell> */}
-                    <TableCell align="right">
-                      <NumberFormat
-                        value={row.cost}
-                        displayType="text"
-                        thousandSeparator
-                        prefix="₹"
-                      />
-                    </TableCell>
-                  </TableRow>
+                        <TableCell align="right">
+                          <NumberFormat
+                            value={row.cost}
+                            displayType="text"
+                            thousandSeparator
+                            prefix="₹"
+                          />
+                        </TableCell>
+                      </TableRow>
+                    ) : (
+                      <p>No Data for today!</p>
+                    )}
+                  </>
                 );
               }
             )}

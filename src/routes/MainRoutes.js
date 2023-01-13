@@ -28,10 +28,6 @@ const MainRoutes = {
     element: <MainLayout />,
     children: [
         {
-            path: 'color',
-            element: <Color />
-        },
-        {
             path: 'dashboard',
             element: <DashboardDefault />
         },
@@ -54,15 +50,7 @@ const MainRoutes = {
         {
             path: 'inventory',
             element: <Inventory />
-        },
-        {
-            path: 'shadow',
-            element: <Shadow />
-        },
-        {
-            path: 'typography',
-            element: <Typography />
-        },
+        }
     ]
 };
 

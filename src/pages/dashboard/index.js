@@ -101,7 +101,7 @@ const DashboardDefault = () => {
                         <Typography variant="h6" color="secondary">
                             Net Profit
                         </Typography>
-                        <Typography variant="h4">₹1560</Typography>
+                        <Typography variant="h4">₹2,60,000</Typography>
                     </Stack>
                     <SalesColumnChart />
                 </MainCard>
@@ -119,7 +119,7 @@ const DashboardDefault = () => {
                             <Typography variant="h6" color="textSecondary">
                                 This Week Statistics
                             </Typography>
-                            <Typography variant="h4">₹7,650</Typography>
+                            <Typography variant="h4">₹78,650</Typography>
                         </Stack>
                     </Box>
                     <MonthlyBarChart />
