@@ -1,4 +1,3 @@
-import MainCard from "components/MainCard";
 import React from "react";
 import InventoryCard from "./InventoryCard";
 import { Grid, Button, TextField } from "@mui/material";

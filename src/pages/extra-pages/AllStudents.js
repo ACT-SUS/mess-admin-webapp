@@ -17,7 +17,7 @@ const AllStudents = () => {
   const [students, setStudents] = useState([]);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [dataPerPage] = useState(3);
+  const [dataPerPage] = useState(5);
 
   // get current blog
   const indexOfLastBlog = currentPage * dataPerPage;

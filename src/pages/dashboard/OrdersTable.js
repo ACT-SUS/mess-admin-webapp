@@ -18,34 +18,6 @@ import NumberFormat from "react-number-format";
 
 import { useEffect } from "react";
 
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-function getComparator(order, orderBy) {
-  return order === "desc"
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
-    }
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
-}
-
 // ==============================|| ORDER TABLE - HEADER CELL ||============================== //
 
 const headCells = [
@@ -137,7 +109,7 @@ export default function OrderTable() {
       setData(
         entries.map((entry) => {
           return {
-            rollNo: entry["id"],
+            rollNo: entry["sid"],
             name: entry["name"],
             guest: entry["numberOfGuests"],
             cost:
@@ -184,7 +156,7 @@ export default function OrderTable() {
         >
           <OrderTableHead order={order} orderBy={orderBy} />
           <TableBody>
-            {stableSort(data, getComparator(order, orderBy)).map(
+            {data.map(
               (row, index) => {
                 const isItemSelected = isSelected(row.rollNo);
                 const labelId = `enhanced-table-checkbox-${index}`;
